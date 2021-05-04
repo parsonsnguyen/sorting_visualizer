@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { sortingAlgorithms } from "../utils";
+import { sortingAlgorithms, generateNewArrayRandomly } from "../utils";
 import "./sortingVisualizer.css";
 import {
     Button,
@@ -10,6 +10,7 @@ import {
     Slider,
     Grid
   } from '@material-ui/core';
+
 export default class SortingVisualizer extends Component {
     constructor(props) {
       super(props);
@@ -19,31 +20,29 @@ export default class SortingVisualizer extends Component {
         arraySize: 20,
         delaySpeed: 500
       };
-      this.arrays = [10,200,500];
+      this.arrays = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200];
     }
+
     onSelectedSortingTypeChange = (event) => {
       this.setState({ selectedSortingType: event.target.value });
     }
     
-    onTxtArraySizeChange = (event) => {
-        this.setState({ arraySize: event.target.value });
+    handleArraySizeChanges = (size) => {
+        this.arrays = generateNewArrayRandomly(size);
+        this.setState({ arraySize: size });
     }
-    onSliderSizeChange = (e, val) => {
-        //if (val === size) return;
-        //setSize(val);
-        //generateArrayVals(1000, 5, val);
-        console.log(val);
-        this.setState({ arraySize: val });
+
+    onTxtArraySizeChange = (event) => {
+        this.handleArraySizeChanges(event.target.value);
+    }
+    onSliderSizeChange = (_, val) => {
+        this.handleArraySizeChanges(val);
     };
 
     onTxtDelaySpeedChange = (event) => {
         this.setState({ delaySpeed: event.target.value });
     }
-    onSliderDelaySpeedChange = (e, val) => {
-        //if (val === size) return;
-        //setSize(val);
-        //generateArrayVals(1000, 5, val);
-        console.log(val);
+    onSliderDelaySpeedChange = (_, val) => {
         this.setState({ delaySpeed: val });
     };
 
@@ -64,7 +63,7 @@ export default class SortingVisualizer extends Component {
                                 value={arraySize}
                                 inputProps={{min: 10, style: { textAlign: 'center' }}}/> 
                             <div className="sliders">
-                                <Slider /*key={`slider-${arraySize}`}*/  min={10} max={500} step={10} defaultValue={arraySize}
+                                <Slider /*key={`slider-${arraySize}`}*/  min={10} max={300} step={10} value={arraySize}
                                         onChange={this.onSliderSizeChange}
                                         //disabled={buttonDisabled}
                                         marks={true}
@@ -81,7 +80,7 @@ export default class SortingVisualizer extends Component {
                                 value={delaySpeed} 
                                 inputProps={{min: 100, style: { textAlign: 'center' }}}/>
                             <div className="sliders">
-                                <Slider /*key={`slider-${delaySpeed}`}*/ min={100} max={2000} step={100} defaultValue={delaySpeed}
+                                <Slider /*key={`slider-${delaySpeed}`}*/ min={100} max={2000} step={100} value={delaySpeed}
                                         onChange={this.onSliderDelaySpeedChange}
                                         //disabled={buttonDisabled}
                                         marks={true}
@@ -97,12 +96,12 @@ export default class SortingVisualizer extends Component {
                                 value={selectedSortingType}
                                 onChange={this.onSelectedSortingTypeChange}
                             >
-                                {sortingAlgorithms.map((item,index) => <MenuItem value={item.type}>{item.name}</MenuItem>)}
+                                {sortingAlgorithms.map((item,index) => <MenuItem key={index} value={item.type}>{item.name}</MenuItem>)}
                             </Select>
                         </Grid>
                        
                         <Grid item xs={3}>
-                            <Button variant="outlined">Generate new Array</Button>
+                            <Button variant="outlined" onClick={() => this.handleArraySizeChanges(arraySize)}>Generate new Array</Button>
                             <Button variant="outlined" color="primary">Sort</Button>
                         </Grid>
                     </Grid>
