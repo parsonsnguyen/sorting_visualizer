@@ -1,21 +1,22 @@
+#filter-area {
+  margin: 20px auto;
+}
 #array-container {
+  margin: 20px auto;
+  height: 650px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: flex-end;
-  justify-content: center;
-  height: 90vh;
-  border-radius: 15px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  padding: 10px;
-  padding-bottom: 0;
-  margin-bottom: 10px;
+  border-bottom: 5px solid black;
 }
 
-.array-bar {
-  background-color: OrangeRed;
-  margin: 50px 3px;
-  width: 5px;
+#array-container div {
+  flex-grow: 1;
+  flex-shrink: 1;
+  background-color: #343a40;
+  text-align: center;
+  color: white;
 }
 
 .sliders {
