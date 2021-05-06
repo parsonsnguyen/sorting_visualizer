@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { generateNewArrayRandomly } from "../utils";
+import { generateNewArrayRandomly, getGUID } from "../utils";
 import {sortingAlgorithms_Information} from "../constants"
 import { getSortingAlgorithmFunc } from "../sortingAlgorithms.js";
 import "./sortingVisualizer.css";
@@ -48,27 +48,22 @@ export default class SortingVisualizer extends Component {
 
   onSelectedSortingTypeChange = (event) => {
     this.setState({ selectedSortingType: event.target.value });
-    console.log("onSelectedSortingTypeChange");
   };
 
   handleArraySizeChanges = (size) => {
     this.arrays = generateNewArrayRandomly(size);
     this.setState({ arraySize: size });
-    console.log("handleArraySizeChanges");
   };
 
   onTxtArraySizeChange = (event) => {
     this.handleArraySizeChanges(event.target.value);
-    console.log("onTxtArraySizeChange");
   };
   onSliderSizeChange = (_, val) => {
     this.handleArraySizeChanges(val);
-    console.log("onSliderSizeChange");
   };
 
   onSliderDelaySpeedChange = (_, val) => {
     window.delaySpeed = val;
-    console.log("onSliderDelaySpeedChange");
   };
 
   renderArraysContent = () => {
@@ -77,19 +72,17 @@ export default class SortingVisualizer extends Component {
       size = this.arrays.length,
       rateToFillContainer = (baseHeight - marginValue) / size;
       
-      console.log({arrays: this.arrays, isTheSame: (new Set(this.arrays)).size === this.arrays.length});
       const arrayContent = this.arrays.map((value, index) => {
         return <div
                 className="array-bar"
                 id={`item-${value}`}
-                key={index}
+                key={getGUID()}
                 style={{
                   height: `${value * rateToFillContainer}px`,
                 }}>
                 {size <= 50 ? value : ""}
               </div>
       });
-     console.log(arrayContent);   
     return arrayContent;
   }
 

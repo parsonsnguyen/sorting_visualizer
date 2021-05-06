@@ -1,3 +1,5 @@
+export const getGUID = () => "id" + Math.random().toString(16).slice(2);
+
 export const generateNewArrayRandomly = size => {
     const array = [];
     for (let i = 1; i <= size; i++) array.push(i);

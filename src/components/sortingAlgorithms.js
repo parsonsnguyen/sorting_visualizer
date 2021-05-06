@@ -9,8 +9,8 @@ async function selectionSortAsync(array) {}
 
 async function bubbleSortAsync(array) {
   const length = array.length;
-  let isSwapped = false;
   for (let i = 0; i < length - 1; i++){
+    let isSwapped = false;
     for (let j = 0; j < length - i - 1; j++) {
       await prepareSwappingStep(array[j], array[j + 1]);
       if (array[j] > array[j + 1]) {
@@ -34,7 +34,6 @@ async function prepareSwappingStep(firstId, secondId) {
 async function swap(firstId, secondId) {
   return new Promise((resolve, _) => {
     setTimeout(() => {
-      console.log("swapping");
       const firstElement = document.getElementById(`item-${firstId}`);
       const secondElement = document.getElementById(`item-${secondId}`);
       const originalValues = {
@@ -48,7 +47,6 @@ async function swap(firstId, secondId) {
       secondElement.style.height = originalValues.firstItem.height + "px";
       secondElement.id = originalValues.firstItem.id;
       secondElement.innerHTML = originalValues.firstItem.content;
-      console.log("swap done");
       resolve();
     }, window.delaySpeed);
   });
