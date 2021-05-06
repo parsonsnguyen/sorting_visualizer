@@ -19,7 +19,8 @@ export default class SortingVisualizer extends Component {
 
     this.state = {
       selectedSortingType: props.selectedSortingType || "Bubble_Sort",
-      arraySize: 20
+      arraySize: 20,
+      isSorting: false
     };
     this.arrays = [
       1,
@@ -47,19 +48,22 @@ export default class SortingVisualizer extends Component {
   }
 
   onSelectedSortingTypeChange = (event) => {
+    if(this.state.isSorting) return;
     this.setState({ selectedSortingType: event.target.value });
   };
 
-  handleArraySizeChanges = (size) => {
-    this.arrays = generateNewArrayRandomly(size);
-    this.setState({ arraySize: size });
-  };
 
   onTxtArraySizeChange = (event) => {
     this.handleArraySizeChanges(event.target.value);
   };
   onSliderSizeChange = (_, val) => {
     this.handleArraySizeChanges(val);
+  };
+
+  handleArraySizeChanges = (size) => {
+    if(this.state.isSorting) return;
+    this.arrays = generateNewArrayRandomly(size);
+    this.setState({ arraySize: size });
   };
 
   onSliderDelaySpeedChange = (_, val) => {
@@ -87,39 +91,79 @@ export default class SortingVisualizer extends Component {
   }
 
   onSortingButtonClick = async () => {
+    if(this.state.isSorting) return;
+    this.updateIsSortingState();
     await getSortingAlgorithmFunc(this.state.selectedSortingType)(this.arrays);
-    // update isSorting or unDisableUI
+    this.updateIsSortingState();
+  }
+  
+  updateIsSortingState = () => {
+    this.setState(prev => {return {isSorting: !prev.isSorting}});
   }
 
   render() {
-    const { selectedSortingType, arraySize } = this.state;
+    const { selectedSortingType, arraySize, isSorting } = this.state;
     return (
       <>
         <div className="makeStyles-root-1" id="filter-area">
           <Grid container spacing={3}>
             <Grid container item xs={2}></Grid>
             <Grid container item xs={8}>
-              <Grid item xs={3}>
-                <TextField
-                  onChange={this.onTxtArraySizeChange}
-                  id="txt-array-size"
-                  type="number"
-                  label="Input array size"
-                  value={arraySize}
-                  inputProps={{ min: 10, style: { textAlign: "center" } }}
-                />
-                <div className="sliders">
-                  <Slider
-                    /*key={`slider-${arraySize}`}*/ min={10}
-                    max={300}
-                    step={10}
+              <Grid container item xs={8} className={ isSorting && "isSorting"}>
+                <Grid item xs={5}>
+                  <TextField
+                    onChange={this.onTxtArraySizeChange}
+                    id="txt-array-size"
+                    type="number"
+                    label="Input array size"
                     value={arraySize}
-                    onChange={this.onSliderSizeChange}
-                    //disabled={buttonDisabled}
-                    marks={true}
-                    valueLabelDisplay="auto"
+                    inputProps={{ min: 10, style: { textAlign: "center" } }}
                   />
-                </div>
+                  <div className="sliders">
+                    <Slider
+                      /*key={`slider-${arraySize}`}*/ min={10}
+                      max={300}
+                      step={10}
+                      value={arraySize}
+                      onChange={this.onSliderSizeChange}
+                      //disabled={buttonDisabled}
+                      marks={true}
+                      valueLabelDisplay="auto"
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={3}>
+                  <InputLabel id="sortingType">
+                    Please select sorting type
+                  </InputLabel>
+                  <Select
+                    labelId="sortingType"
+                    id="sortingTypeSelect"
+                    value={selectedSortingType}
+                    onChange={this.onSelectedSortingTypeChange}
+                  >
+                    {sortingAlgorithms_Description.map((item, index) => (
+                      <MenuItem key={index} value={item.type}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  onClick={() => this.handleArraySizeChanges(arraySize)}
+                >
+                  Generate new Array
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={this.onSortingButtonClick}
+                >
+                  Sort
+                </Button>
+              </Grid>
               </Grid>
               <Grid item xs={3}>
                <InputLabel id="delaySpeed">
@@ -137,39 +181,6 @@ export default class SortingVisualizer extends Component {
                     valueLabelDisplay="auto"
                   />
                 </div>
-              </Grid>
-              <Grid item xs={3}>
-                <InputLabel id="sortingType">
-                  Please select sorting type
-                </InputLabel>
-                <Select
-                  labelId="sortingType"
-                  id="sortingTypeSelect"
-                  value={selectedSortingType}
-                  onChange={this.onSelectedSortingTypeChange}
-                >
-                  {sortingAlgorithms_Description.map((item, index) => (
-                    <MenuItem key={index} value={item.type}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-
-              <Grid item xs={3}>
-                <Button
-                  variant="outlined"
-                  onClick={() => this.handleArraySizeChanges(arraySize)}
-                >
-                  Generate new Array
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={this.onSortingButtonClick}
-                >
-                  Sort
-                </Button>
               </Grid>
             </Grid>
             <Grid container item xs={2}></Grid>
