@@ -1,6 +1,10 @@
 
+export const COLORs = {
+    Base_color: '#343a40',
+    Red: 'red',
+}
 
-export const sortingAlgorithms_Information = 
+export const sortingAlgorithms_Description = 
 [{
     "type": "Selection_Sort",
     "name": "Selection Sort",

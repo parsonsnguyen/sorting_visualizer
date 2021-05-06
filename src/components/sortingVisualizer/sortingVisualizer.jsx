@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { generateNewArrayRandomly, getGUID } from "../utils";
-import {sortingAlgorithms_Information} from "../constants"
-import { getSortingAlgorithmFunc } from "../sortingAlgorithms.js";
+import {sortingAlgorithms_Description} from "../constants"
+import { getSortingAlgorithmFunc } from "../algorithms/index";
 import "./sortingVisualizer.css";
 import {
   Button,
@@ -86,9 +86,11 @@ export default class SortingVisualizer extends Component {
     return arrayContent;
   }
 
-  async onSortingButtonClick(arrays) {
-    await getSortingAlgorithmFunc(this.state.selectedSortingType)(arrays);
+  onSortingButtonClick = async () => {
+    await getSortingAlgorithmFunc(this.state.selectedSortingType)(this.arrays);
+    // update isSorting or unDisableUI
   }
+
   render() {
     const { selectedSortingType, arraySize } = this.state;
     return (
@@ -146,7 +148,7 @@ export default class SortingVisualizer extends Component {
                   value={selectedSortingType}
                   onChange={this.onSelectedSortingTypeChange}
                 >
-                  {sortingAlgorithms_Information.map((item, index) => (
+                  {sortingAlgorithms_Description.map((item, index) => (
                     <MenuItem key={index} value={item.type}>
                       {item.name}
                     </MenuItem>
@@ -164,7 +166,7 @@ export default class SortingVisualizer extends Component {
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() => this.onSortingButtonClick(this.arrays)}
+                  onClick={this.onSortingButtonClick}
                 >
                   Sort
                 </Button>
