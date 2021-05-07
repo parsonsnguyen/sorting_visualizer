@@ -7,7 +7,7 @@ export const generateNewArrayRandomly = size => {
     return makeArrayItemsRandomly(array);
 }
 
-export const swapArrItem = (arr, firstIndex, secondIndex) => {
+export const swapArrItems = (arr, firstIndex, secondIndex) => {
     const temporaryValue = arr[firstIndex];
     arr[firstIndex] = arr[secondIndex];
     arr[secondIndex] = temporaryValue;
@@ -20,7 +20,7 @@ const makeArrayItemsRandomly = array => {
     while (0 !== currentIndex) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
-        swapArrItem(array, currentIndex, randomIndex);
+        swapArrItems(array, currentIndex, randomIndex);
     }
     return array;
 }

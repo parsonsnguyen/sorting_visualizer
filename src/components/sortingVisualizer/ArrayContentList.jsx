@@ -2,10 +2,6 @@ import React, { PureComponent } from "react";
 import { getGUID } from "../utils";
 
 export default class ArrayContentList extends PureComponent {
-    constructor(props) {
-      super(props);
-    }
-
     renderArraysContent = (arrays) => {
         const baseHeight = 650,
           marginValue = 20,

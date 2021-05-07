@@ -1,8 +1,8 @@
-
 export const COLORs = {
-    Base_color: '#343a40',
-    Red: 'red',
-    Green: 'green'
+    NormalValue: '#343a40',
+    ComparingValue: 'red',
+    CandidateValue: 'yellow',
+    SortedValue: 'green'
 }
 
 export const sortingAlgorithms_Description = 

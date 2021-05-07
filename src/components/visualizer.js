@@ -1,11 +1,6 @@
 import {COLORs} from './constants'
 
-export async function prepareSwappingStep(firstId, secondId) {
-  await changeBackgroundColor(firstId, COLORs.Red);
-  await changeBackgroundColor(secondId, COLORs.Red);
-}
-
-export async function swap(firstId, secondId) {
+export async function swapPosition_of_2Values(firstId, secondId) {
   return new Promise((resolve, _) => {
     setTimeout(() => {
       const firstElement = document.getElementById(`item-${firstId}`);
@@ -26,12 +21,17 @@ export async function swap(firstId, secondId) {
   });
 }
 
-export async function endSwappingStep(firstId, secondId) {
-  await changeBackgroundColor(firstId, COLORs.Base_color);
-  await changeBackgroundColor(secondId, COLORs.Base_color);
+export async function markColor_of_ComparingValues(firstId, secondId) {
+  await changeColor(firstId, COLORs.ComparingValue);
+  await changeColor(secondId, COLORs.ComparingValue);
 }
 
-export async function changeBackgroundColor(itemId, color) {
+export async function markColor_of_NormalValues(firstId, secondId) {
+  await changeColor(firstId, COLORs.NormalValue);
+  await changeColor(secondId, COLORs.NormalValue);
+}
+
+export async function changeColor(itemId, color) {
   return new Promise((resolve, __) => {
     setTimeout(() => {
       const element = document.getElementById(`item-${itemId}`);
