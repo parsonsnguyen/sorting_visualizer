@@ -2,6 +2,7 @@
 export const COLORs = {
     Base_color: '#343a40',
     Red: 'red',
+    Green: 'green'
 }
 
 export const sortingAlgorithms_Description = 
