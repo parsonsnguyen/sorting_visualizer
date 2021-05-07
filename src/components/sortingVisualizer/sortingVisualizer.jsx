@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { generateNewArrayRandomly, getGUID } from "../utils";
+import ArrayContentList from './ArrayContentList'
+import { generateNewArrayRandomly } from "../utils";
 import {sortingAlgorithms_Description} from "../constants"
 import { getSortingAlgorithmFunc } from "../algorithms/index";
 import "./sortingVisualizer.css";
@@ -69,26 +70,6 @@ export default class SortingVisualizer extends Component {
   onSliderDelaySpeedChange = (_, val) => {
     window.delaySpeed = val;
   };
-
-  renderArraysContent = () => {
-    const baseHeight = 650,
-      marginValue = 20,
-      size = this.arrays.length,
-      rateToFillContainer = (baseHeight - marginValue) / size;
-      
-      const arrayContent = this.arrays.map((value, index) => {
-        return <div
-                className="array-bar"
-                id={`item-${value}`}
-                key={getGUID()}
-                style={{
-                  height: `${value * rateToFillContainer}px`,
-                }}>
-                {size <= 50 ? value : ""}
-              </div>
-      });
-    return arrayContent;
-  }
 
   onSortingButtonClick = async () => {
     if(this.state.isSorting) return;
@@ -187,7 +168,7 @@ export default class SortingVisualizer extends Component {
           </Grid>
         </div>
         <hr></hr>
-        <div id="array-container">{this.renderArraysContent()}</div>
+        <ArrayContentList arrays={this.arrays} />
       </>
     );
   }
