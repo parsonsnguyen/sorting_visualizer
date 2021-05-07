@@ -4,9 +4,10 @@ import {COLORs} from '../constants'
 
 export default async function bubbleSortAsync(array) {
   const length = array.length;
-  for (let i = 0; i < length - 1; i++){
+  for (let i = 0; i < length; i++){
     let isSwapped = false;
     for (let j = 0; j < length - i - 1; j++) {
+      const isLastComparingValue = (j === length - i - 2);
       await markColor_of_ComparingValues(array[j], array[j + 1]);
       if (array[j] > array[j + 1]) {
         isSwapped = true;
@@ -14,11 +15,11 @@ export default async function bubbleSortAsync(array) {
         await swapPosition_of_2Values(array[j], array[j + 1]);
       }
       await markColor_of_NormalValues(array[j], array[j + 1]);
-      await changeColor(array[j + 1], COLORs.SortedValue); // Sorted value
+      isLastComparingValue && await changeColor(array[j + 1], COLORs.SortedValue); // Sorted value
     }
 
     if (!isSwapped) {
-      for (let j = 0; j < length - i - 1; j++) 
+      for (let j = 0; j <= length - i - 1; j++) 
         await changeColor(array[j], COLORs.SortedValue); // Sorted value
       break;
     }
